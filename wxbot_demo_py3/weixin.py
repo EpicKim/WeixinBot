@@ -797,8 +797,9 @@ class WebWeixin(object):
                 #if self.autoReplyRevokeMode:
                 #    store
 #自己加的代码-------------------------------------------#
-                if self.autoReplyMode:
-                    ans = self._xiaodoubi(content) + '\n[微信机器人自动回复]'
+                if self.autoReplyMode & (name != '珺珺'):
+                    ans = self._qingyunke(content)
+                    # ans += '\n[微信机器人自动回复]'
                     if self.webwxsendmsg(ans, msg['FromUserName']):
                         print('自动回复: ' + ans)
                         logging.info('自动回复: ' + ans)
@@ -1000,13 +1001,13 @@ class WebWeixin(object):
             print(self)
         logging.debug(self)
 
-        if self.interactive and input('[*] 是否开启自动回复模式(y/n): ') == 'y':
-            self.autoReplyMode = True
-            print('[*] 自动回复模式 ... 开启')
-            logging.debug('[*] 自动回复模式 ... 开启')
-        else:
-            print('[*] 自动回复模式 ... 关闭')
-            logging.debug('[*] 自动回复模式 ... 关闭')
+        # if self.interactive and input('[*] 是否开启自动回复模式(y/n): ') == 'y':
+        self.autoReplyMode = True
+        # print('[*] 自动回复模式 ... 开启')
+        logging.debug('[*] 自动回复模式 ... 开启')
+        # else:
+            # print('[*] 自动回复模式 ... 关闭')
+            # logging.debug('[*] 自动回复模式 ... 关闭')
 
         if sys.platform.startswith('win'):
             import _thread
@@ -1172,6 +1173,16 @@ class WebWeixin(object):
             return ans['response']
         else:
             return '你在说什么，风太大听不清列'
+
+    def _qingyunke(self, word):
+    	url = 'http://api.qingyunke.com/api.php?key=free&appid=0&msg=' + word
+    	r = requests.get(url)
+    	ans = r.json()
+    	if ans['result'] == 0:
+    		return ans['content']
+    	else:
+    		return '你在说什么，风太大听不清列'
+	        
 
     def _searchContent(self, key, content, fmat='attr'):
         if fmat == 'attr':
