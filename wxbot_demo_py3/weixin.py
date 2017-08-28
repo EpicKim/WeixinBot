@@ -1001,13 +1001,8 @@ class WebWeixin(object):
             print(self)
         logging.debug(self)
 
-        # if self.interactive and input('[*] 是否开启自动回复模式(y/n): ') == 'y':
         self.autoReplyMode = True
-        # print('[*] 自动回复模式 ... 开启')
         logging.debug('[*] 自动回复模式 ... 开启')
-        # else:
-            # print('[*] 自动回复模式 ... 关闭')
-            # logging.debug('[*] 自动回复模式 ... 关闭')
 
         if sys.platform.startswith('win'):
             import _thread
